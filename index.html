@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    /* 반응형 YouTube 동영상 컨테이너 */
     .video-container {
       position: relative;
-      padding-bottom: 56.25%; /* 16:9 비율 */
-      height: 0;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 비율 */
       overflow: hidden;
-      max-width: 100%;
     }
+
+    /* 동영상 iframe 스타일 */
     .video-container iframe {
       position: absolute;
       top: 0;
@@ -19,11 +21,34 @@
       height: 100%;
     }
   </style>
-  <title>Responsive YouTube Video Loop with Mute</title>
+  <title>Responsive YouTube Video Loop Between 25s to 34s</title>
 </head>
 <body>
   <div class="video-container">
     <iframe id="youtube-player" src="https://www.youtube.com/embed/Njw4ADhbZzU?start=25&end=34&autoplay=1&mute=1&loop=1" frameborder="0" allowfullscreen></iframe>
   </div>
+
+  <script>
+    // YouTube Player API를 로드합니다.
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // YouTube 동영상 재생 시 호출될 함수
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+
+    // 플레이어가 준비되었을 때 호출될 함수
+    function onPlayerReady(event) {
+      event.target.playVideo(); // 동영상 재생 시작
+    }
+  </script>
 </body>
 </html>
